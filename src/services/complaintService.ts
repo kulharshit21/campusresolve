@@ -271,7 +271,7 @@ export async function createComplaint(payload: {
 
   const list = getStoredFixtures<Complaint[]>(STORAGE_KEY, INITIAL_COMPLAINTS);
   const newComplaint: Complaint = {
-    id: 'c-' + Date.now(),
+    id: `c-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     tracking_code,
     student_id: payload.student_id,
     title: payload.title,
@@ -295,7 +295,7 @@ export async function createComplaint(payload: {
   // Add initial history
   const history = getStoredFixtures<ComplaintStatusHistory[]>(HISTORY_KEY, INITIAL_HISTORY);
   history.push({
-    id: 'h-' + Date.now(),
+    id: `h-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     complaint_id: newComplaint.id,
     changed_by: payload.student_id,
     old_status: null,
@@ -374,7 +374,7 @@ export async function updateComplaintStatus(payload: {
   // Add history entry
   const history = getStoredFixtures<ComplaintStatusHistory[]>(HISTORY_KEY, INITIAL_HISTORY);
   history.push({
-    id: 'h-' + Date.now(),
+    id: `h-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     complaint_id: payload.complaintId,
     changed_by: payload.changedBy,
     old_status: oldStatus,
@@ -448,7 +448,7 @@ export async function addComment(payload: {
 
   const allComments = getStoredFixtures<ComplaintComment[]>(COMMENTS_KEY, INITIAL_COMMENTS);
   const newComment: ComplaintComment = {
-    id: 'com-' + Date.now(),
+    id: `com-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     complaint_id: payload.complaintId,
     author_id: payload.authorId,
     message: payload.message,
