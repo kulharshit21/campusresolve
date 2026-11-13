@@ -37,7 +37,7 @@ const SESSION_STORAGE_KEY = 'campusresolve_active_session';
 
 const INITIAL_ACCOUNTS: RegisteredAccount[] = [
   {
-    id: 'st-0000-0000-0000-000000000001',
+    id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     full_name: 'Rahul Sharma',
     email: 'rahul.student@campus.edu',
     password: 'password123',
@@ -45,15 +45,15 @@ const INITIAL_ACCOUNTS: RegisteredAccount[] = [
     created_at: new Date(Date.now() - 30 * 86400 * 1000).toISOString(),
   },
   {
-    id: 'st-0000-0000-0000-000000000002',
+    id: 'c2672274-0899-4c65-a9dc-5f1c9e792cad',
     full_name: 'Priya Patel',
-    email: 'priya.p@campus.edu',
+    email: 'priya.student@campus.edu',
     password: 'password123',
     role: 'student',
     created_at: new Date(Date.now() - 20 * 86400 * 1000).toISOString(),
   },
   {
-    id: 'ad-0000-0000-0000-000000000001',
+    id: 'e691351d-233c-4a60-bf35-db8bdad713d8',
     full_name: 'Dr. Anita Desai (Campus Admin)',
     email: 'admin.anita@campus.edu',
     password: 'admin123',
@@ -317,11 +317,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
     }
 
-    // Generate deterministic/unique ID
-    const newUserId =
-      role === 'admin'
-        ? `ad-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`
-        : `st-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
+    // Generate valid UUID for user ID across both offline and online modes
+    let newUserId =
+      typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : '00000000-0000-4000-8000-' + Math.random().toString(16).substring(2, 14).padEnd(12, '0');
+
+    // If Supabase is configured, create Supabase user and obtain server UUID
+    if (isSupabaseConfigured) {
+      try {
+        const { data: supaData, error: supaErr } = await supabase.auth.signUp({
+          email: normalizedEmail,
+          password,
+          options: {
+            data: { full_name: fullName.trim(), role },
+          },
+        });
+
+        if (supaErr) {
+          return { error: new Error(supaErr.message) };
+        }
+
+        if (supaData.user) {
+          newUserId = supaData.user.id;
+        }
+      } catch (err: any) {
+        console.warn('Supabase remote signup warning (local profile active):', err);
+      }
+    }
 
     const newAccount: RegisteredAccount = {
       id: newUserId,
@@ -344,24 +367,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       created_at: newAccount.created_at,
     };
 
-    // Auto-login newly registered user immediately!
+    // Auto-login newly registered user immediately
     setUser(newProfile);
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(newProfile));
-
-    // If Supabase is configured, create Supabase user in background
-    if (isSupabaseConfigured) {
-      supabase.auth
-        .signUp({
-          email: normalizedEmail,
-          password,
-          options: {
-            data: { full_name: fullName, role },
-          },
-        })
-        .catch((err) => {
-          console.warn('Supabase remote signup warning (local profile active):', err);
-        });
-    }
 
     return { error: null, needsConfirmation: false };
   };

@@ -24,7 +24,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
   {
     id: 'c-101',
     tracking_code: 'CR-2026-1001',
-    student_id: 'st-0000-0000-0000-000000000001',
+    student_id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     title: 'Wi-Fi not working in Computer Lab 3',
     description:
       'The access point keeps dropping connections every 5 minutes during our distributed systems practicals. IP address lease fails frequently.',
@@ -39,7 +39,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
   {
     id: 'c-102',
     tracking_code: 'CR-2026-1002',
-    student_id: 'st-0000-0000-0000-000000000001',
+    student_id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     title: 'Water leakage in Hostel Block 4 Washroom',
     description:
       'Continuous overhead pipe leakage creating slippery floors near cubicle 3. Urgent plumbing required before water wastage increases.',
@@ -53,7 +53,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
   {
     id: 'c-103',
     tracking_code: 'CR-2026-1003',
-    student_id: 'st-0000-0000-0000-000000000002',
+    student_id: 'c2672274-0899-4c65-a9dc-5f1c9e792cad',
     title: 'Projector flickering in Main Auditorium',
     description:
       'HDMI input connector is loose and display flickers every few seconds during presentations.',
@@ -64,12 +64,12 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     resolved_at: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
     created_at: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Priya Patel', email: 'priya.p@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Priya Patel', email: 'priya.student@campus.edu', role: 'student' },
   },
   {
     id: 'c-104',
     tracking_code: 'CR-2026-1004',
-    student_id: 'st-0000-0000-0000-000000000003',
+    student_id: 'c2672274-0899-4c65-a9dc-5f1c9e792cad',
     title: 'Faulty ceiling fans in Library Reading Section',
     description:
       'Two ceiling fans near aisle 4 produce excessive screeching noise, disturbing students preparing for semester exams.',
@@ -78,7 +78,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     status: 'open',
     created_at: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Aman Verma', email: 'aman.v@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Priya Patel', email: 'priya.student@campus.edu', role: 'student' },
   },
 ];
 
@@ -86,7 +86,7 @@ const INITIAL_COMMENTS: ComplaintComment[] = [
   {
     id: 'com-1',
     complaint_id: 'c-101',
-    author_id: 'ad-0000-0000-0000-000000000001',
+    author_id: 'e691351d-233c-4a60-bf35-db8bdad713d8',
     message: 'IT Network Team has been dispatched with a replacement Cisco AP. Firmware update currently in progress.',
     created_at: new Date(Date.now() - 20 * 3600 * 1000).toISOString(),
     author_profile: { full_name: 'Dr. Anita Desai (Campus Admin)', role: 'admin' },
@@ -94,7 +94,7 @@ const INITIAL_COMMENTS: ComplaintComment[] = [
   {
     id: 'com-2',
     complaint_id: 'c-101',
-    author_id: 'st-0000-0000-0000-000000000001',
+    author_id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     message: 'Thank you maam! We tested at 2:00 PM and signal is significantly more stable now.',
     created_at: new Date(Date.now() - 5 * 3600 * 1000).toISOString(),
     author_profile: { full_name: 'Rahul Sharma', role: 'student' },
@@ -105,7 +105,7 @@ const INITIAL_HISTORY: ComplaintStatusHistory[] = [
   {
     id: 'h-1',
     complaint_id: 'c-101',
-    changed_by: 'st-0000-0000-0000-000000000001',
+    changed_by: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     old_status: null,
     new_status: 'open',
     note: 'Complaint registered by student',
@@ -115,7 +115,7 @@ const INITIAL_HISTORY: ComplaintStatusHistory[] = [
   {
     id: 'h-2',
     complaint_id: 'c-101',
-    changed_by: 'ad-0000-0000-0000-000000000001',
+    changed_by: 'e691351d-233c-4a60-bf35-db8bdad713d8',
     old_status: 'open',
     new_status: 'in_progress',
     note: 'Assigned to IT Network Engineer for lab hardware inspection.',
