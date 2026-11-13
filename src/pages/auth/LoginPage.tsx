@@ -29,7 +29,7 @@ export const LoginPage: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
-    const { error: signInError } = await signIn(email, password);
+    const { error: signInError, user: signedInUser } = await signIn(email, password);
     setIsLoading(false);
 
     if (signInError) {
@@ -40,7 +40,8 @@ export const LoginPage: React.FC = () => {
     if (from) {
       navigate(from, { replace: true });
     } else {
-      if (email.toLowerCase().includes('admin')) {
+      const targetRole = signedInUser?.role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+      if (targetRole === 'admin') {
         navigate('/admin/dashboard', { replace: true });
       } else {
         navigate('/student/dashboard', { replace: true });
