@@ -10,6 +10,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    watch: {
+      ignored: ['**/docs/**', '**/supabase/**', '**/node_modules/**'],
+    },
+  },
   build: {
     rollupOptions: {
       output: {
