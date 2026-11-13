@@ -237,7 +237,27 @@ WITH CHECK (
   changed_by = auth.uid() OR public.is_admin()
 );
 
--- 12. Enable Supabase Realtime Publication
-ALTER PUBLICATION supabase_realtime ADD TABLE public.complaints;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.complaint_comments;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.complaint_status_history;
+-- 12. Enable Supabase Realtime Publication safely
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND tablename = 'complaints'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.complaints;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND tablename = 'complaint_comments'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.complaint_comments;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND tablename = 'complaint_status_history'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.complaint_status_history;
+  END IF;
+END $$;
