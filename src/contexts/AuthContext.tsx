@@ -323,23 +323,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         ? crypto.randomUUID()
         : '00000000-0000-4000-8000-' + Math.random().toString(16).substring(2, 14).padEnd(12, '0');
 
-    // If Supabase is configured, create Supabase user and obtain server UUID
+    // If Supabase is configured, create user via server-side admin API with email_confirm: true
+    // This completely prevents Supabase from attempting to send verification emails and eliminates bounce rate
     if (isSupabaseConfigured) {
       try {
-        const { data: supaData, error: supaErr } = await supabase.auth.signUp({
-          email: normalizedEmail,
-          password,
-          options: {
-            data: { full_name: fullName.trim(), role },
-          },
+        const response = await fetch('/api/auth-signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: normalizedEmail,
+            password,
+            fullName: fullName.trim(),
+            role,
+          }),
         });
 
-        if (supaErr) {
-          return { error: new Error(supaErr.message) };
-        }
-
-        if (supaData.user) {
-          newUserId = supaData.user.id;
+        if (response.ok) {
+          const resData = await response.json();
+          if (resData.user?.id) {
+            newUserId = resData.user.id;
+          }
+          // Authenticate session immediately with Supabase
+          await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password,
+          });
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          if (response.status === 400 && errData.error) {
+            return { error: new Error(errData.error) };
+          }
         }
       } catch (err: any) {
         console.warn('Supabase remote signup warning (local profile active):', err);
