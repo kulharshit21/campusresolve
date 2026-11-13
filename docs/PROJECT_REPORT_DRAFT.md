@@ -51,7 +51,7 @@ CampusResolve introduces a comprehensive digital ecosystem:
 
 ---
 
-### 7. Project Objectives
+### 7. Objectives
 1. Design an accessible, responsive web interface adhering to institutional usability standards.
 2. Implement secure authentication with distinct student and administrator roles.
 3. Enforce strict database authorization using PostgreSQL Row Level Security (RLS).
@@ -89,39 +89,111 @@ graph TD
 
 ---
 
-### 10. Database Schema Design
-The relational schema comprises four primary tables:
-1. `profiles`: User information, role mapping (`student` vs. `admin`).
-2. `complaints`: Core complaint details, tracking code, category, location, status, and resolution note.
-3. `complaint_comments`: Interactive conversation thread between students and staff.
-4. `complaint_status_history`: Historical log of all status transitions automatically populated by database triggers.
-
-*(Refer to `docs/DATABASE.md` for full DDL and ERD diagrams).*
+### 10. Frontend Implementation
+The frontend is constructed using modular, reusable React components:
+- **Navigation & Guarding**: `Navbar`, `Footer`, and `ProtectedRoute` components enforcing role separation and mobile drawer menus.
+- **Complaint Workflows**: `ComplaintCard`, `StatusTimeline`, and `CommentThread` providing intuitive user interaction.
+- **Dashboard & Analytics**: `StatCard` and `AnalyticsCharts` powered by Recharts for data visualization.
+- **Forms & Dialogs**: `Input`, `Select`, `Textarea`, and `Modal` components with client-side validation.
 
 ---
 
-### 11. Authentication & Security Engineering
-- **Engine-Level Row Level Security (RLS)**: PostgreSQL enforces that students can only query complaints matching `student_id = auth.uid()`, while administrators can query all complaints.
-- **Trigger-Enforced Role Protection**: The `protect_profile_role` trigger prevents unauthorized client requests from changing user roles to `admin`.
-- **Private Storage Validation**: Uploaded evidence files are restricted to JPEG, PNG, and WebP formats capped at 5MB per upload.
+### 11. Backend Implementation
+The application operates on a Backend-as-a-Service (BaaS) architecture powered by Supabase:
+- **Authentication**: Native JWT issuance and session management.
+- **API Engine**: PostgREST exposing PostgreSQL tables and views with automatic query parameterization.
+- **Realtime**: Logical decoding of PostgreSQL WAL changes broadcasted over WebSocket channels.
+- **Storage**: S3-compatible bucket (`complaint-evidence`) with strict MIME validation.
 
 ---
 
-### 12. Verification and Test Results
-- **Automated Tests**: Vitest test suite executing tracking code generation, complaint CRUD, status updates, and comments passed (5/5 tests passing).
-- **Type Safety**: TypeScript compiler (`tsc -b`) passed with zero errors.
-- **Production Bundle**: Vite production build succeeded with optimized vendor chunks (`react-vendor`, `recharts`, `supabase`), keeping all bundles below 500kB.
+### 12. Database Schema
+The database comprises four normalized tables: `profiles`, `complaints`, `complaint_comments`, and `complaint_status_history`.
+
+```mermaid
+erDiagram
+    PROFILES ||--o{ COMPLAINTS : reports
+    PROFILES ||--o{ COMPLAINT_COMMENTS : writes
+    PROFILES ||--o{ COMPLAINT_STATUS_HISTORY : transitions
+    COMPLAINTS ||--o{ COMPLAINT_COMMENTS : contains
+    COMPLAINTS ||--o{ COMPLAINT_STATUS_HISTORY : tracks
+```
 
 ---
 
-### 13. Limitations & Future Scope
-- **Limitations**: Currently scoped to a single university campus; email notifications require external SMTP integration.
-- **Future Scope**:
-  - Push and SMS notifications for instant maintenance alerts.
-  - QR-code labels affixed to classroom desks or lab apparatus for instant ticket pre-population.
-  - Machine learning classification for automated departmental routing.
+### 13. Authentication and Security
+- **Row Level Security (RLS)**: Enforces table-level access rules directly in the database engine (`student_id = auth.uid() OR is_admin()`).
+- **Role Self-Elevation Guard**: The `protect_profile_role` database trigger prevents non-admin users from altering their role.
+- **Safe Environment Handling**: Client credentials use `.env` placeholders without committing secrets to version control.
 
 ---
 
-### 14. Conclusion
+### 14. Major Features
+1. **Automated Tracking Code Generation**: Standard format `CR-YYYY-XXXX`.
+2. **Three-Stage Progress Timeline**: Open &rarr; In Progress &rarr; Resolved.
+3. **Photographic Evidence Upload**: Image attachment with preview and full-screen inspection modal.
+4. **Follow-Up Discussion Thread**: Bidirectional communication between students and administrators.
+5. **Interactive Analytics**: Real-time category and status charts.
+
+---
+
+### 15. Implementation Methodology
+The project followed an agile, phased delivery methodology:
+- Phase 1: Workspace audit and repository setup.
+- Phase 2: Application foundation and dependency setup.
+- Phase 3: Complete student and administrator UI flows.
+- Phase 4: Supabase database schema, triggers, and RLS policies.
+- Phase 5: Automated test suite creation (Vitest) and browser visual verification.
+- Phase 6: Documentation and viva preparation.
+
+---
+
+### 16. Testing Methodology
+Testing was conducted across multiple levels:
+- **Static Analysis**: TypeScript compiler (`tsc -b`) and ESLint.
+- **Unit & Service Testing**: Vitest test suites verifying complaint creation, tracking codes, status history, and comments.
+- **End-to-End Simulation**: 20-step lifecycle test covering the complete student-to-admin workflow.
+- **Browser Visual Audit**: Headless browser verification with screenshot captures.
+
+---
+
+### 17. Actual Test Results
+- **Vitest**: 6/6 tests passing ([TESTING.md](file:///d:/FSD%20PROJECT/docs/TESTING.md)).
+- **TypeScript**: 0 compiler errors.
+- **Production Build**: Built in 5.63s with optimized vendor chunks (`react-vendor`, `recharts`, `supabase`).
+
+---
+
+### 18. Application Screenshots
+Below is the verified screenshot captured from the active CampusResolve application during browser quality audit:
+
+![CampusResolve Admin Dashboard and Analytics](screenshots/admin_dashboard.png)
+*Figure 18.1: CampusResolve Administrator Portal displaying metric stat cards, Recharts category analytics bar chart, status breakdown donut chart, and the live complaints registry table.*
+
+---
+
+### 19. Limitations
+1. Single-campus deployment without multi-campus branching.
+2. Automated SMS alerts require external gateway integration.
+3. Offline queueing requires service worker caching enhancements.
+
+---
+
+### 20. Future Enhancements
+1. **QR-Code Integration**: Affixing QR codes to classroom desks to pre-fill room and building coordinates.
+2. **Push Notifications**: Mobile push notifications for instant status changes.
+3. **Machine Learning Categorization**: Automatic classification of complaint text into appropriate departmental queues.
+
+---
+
+### 21. Conclusion
 CampusResolve provides an end-to-end, demonstrable university complaint management system that satisfies all academic review criteria: frontend design, backend architecture, security implementation, and project documentation.
+
+---
+
+### 22. References
+1. React Documentation: https://react.dev/
+2. Supabase Documentation & Guides: https://supabase.com/docs/
+3. PostgreSQL Row Level Security: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+4. Tailwind CSS Framework: https://tailwindcss.com/
+5. Recharts Documentation: https://recharts.org/
