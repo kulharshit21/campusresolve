@@ -15,7 +15,8 @@ import { StatusBadge, CategoryBadge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Textarea } from '@/components/ui/Textarea';
-import { formatDate } from '@/lib/utils';
+import { exportComplaintsToCSV, getSlaInfo } from '@/lib/utils';
+import { RESOLUTION_TEMPLATES } from '@/lib/constants';
 import {
   ShieldAlert,
   Layers,
@@ -25,6 +26,9 @@ import {
   Eye,
   Edit3,
   RefreshCw,
+  Download,
+  MapPin,
+  User,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -79,7 +83,7 @@ export const AdminDashboard: React.FC = () => {
   const handleOpenStatusModal = (complaint: Complaint) => {
     setActiveComplaint(complaint);
     setTargetStatus(complaint.status === 'open' ? 'in_progress' : 'resolved');
-    setResolutionNote('');
+    setResolutionNote(complaint.resolution_note || '');
     setUpdateError(null);
   };
 
@@ -121,26 +125,40 @@ export const AdminDashboard: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
+            <div className="h-9 w-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-md shadow-blue-500/20">
               <ShieldAlert className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-              Campus Administration Portal
-            </h1>
+            <div>
+              <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+                Campus Administration Portal
+              </h1>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Logged in as <strong className="text-slate-800">{user?.full_name}</strong> ({user?.email})
+              </p>
+            </div>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
-            Real-time campus issue dispatch, status transitions, and facility management analytics.
-          </p>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={loadData}
-          leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
-        >
-          Refresh Feed
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => exportComplaintsToCSV(complaints)}
+            leftIcon={<Download className="w-3.5 h-3.5 text-slate-600" />}
+            title="Download formatted CSV records"
+          >
+            Export CSV
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadData}
+            leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
+          >
+            Refresh Feed
+          </Button>
+        </div>
       </div>
 
       {/* Metrics Row */}
@@ -180,13 +198,37 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Complaints Management Table */}
       <div className="space-y-4">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-            Campus Issues Registry ({complaints.length})
-          </h2>
-          <p className="text-xs text-slate-500">
-            Click on any complaint to inspect full student evidence, audit history, and submit official replies.
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+              Campus Issues Registry ({complaints.length})
+            </h2>
+            <p className="text-xs text-slate-500">
+              Select any issue to inspect photographic evidence, timeline history, or post official updates.
+            </p>
+          </div>
+
+          {/* Quick Filter Status Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            {[
+              { id: 'all', label: 'All', count: stats.total },
+              { id: 'open', label: 'Open', count: stats.open },
+              { id: 'in_progress', label: 'In Progress', count: stats.inProgress },
+              { id: 'resolved', label: 'Resolved', count: stats.resolved },
+            ].map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setStatus(p.id)}
+                className={`px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+                  status === p.id
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                {p.label} ({p.count})
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Filter Bar */}
@@ -204,8 +246,8 @@ export const AdminDashboard: React.FC = () => {
           }}
         />
 
-        {/* Table View */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        {/* Desktop Data Table (Shown on md+ screens) */}
+        <div className="hidden md:block bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-slate-600">
               <thead className="bg-slate-50/80 text-slate-700 uppercase font-bold border-b border-slate-200">
@@ -216,7 +258,7 @@ export const AdminDashboard: React.FC = () => {
                   <th className="px-4 py-3.5">Campus Location</th>
                   <th className="px-4 py-3.5">Student</th>
                   <th className="px-4 py-3.5">Status</th>
-                  <th className="px-4 py-3.5">Date</th>
+                  <th className="px-4 py-3.5">SLA Info</th>
                   <th className="px-4 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
@@ -234,57 +276,136 @@ export const AdminDashboard: React.FC = () => {
                     </td>
                   </tr>
                 ) : (
-                  complaints.map((c) => (
-                    <tr key={c.id} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="px-4 py-3.5 font-mono font-bold text-slate-900 whitespace-nowrap">
-                        {c.tracking_code}
-                      </td>
-                      <td className="px-4 py-3.5 font-medium text-slate-900 max-w-[200px] truncate">
-                        <Link
-                          to={`/admin/complaints/${c.id}`}
-                          className="hover:text-blue-600 transition-colors"
-                        >
-                          {c.title}
-                        </Link>
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <CategoryBadge category={c.category} />
-                      </td>
-                      <td className="px-4 py-3.5 max-w-[150px] truncate text-slate-500">
-                        {c.campus_location}
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap font-medium text-slate-700">
-                        {c.student_profile?.full_name || 'Student'}
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <StatusBadge status={c.status} />
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap text-slate-400 text-[11px]">
-                        {formatDate(c.created_at)}
-                      </td>
-                      <td className="px-4 py-3.5 text-right whitespace-nowrap space-x-1">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleOpenStatusModal(c)}
-                          className="text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                        >
-                          <Edit3 className="w-3.5 h-3.5 mr-1" />
-                          Update
-                        </Button>
-                        <Link to={`/admin/complaints/${c.id}`}>
-                          <Button variant="outline" size="sm" className="text-xs">
-                            <Eye className="w-3.5 h-3.5 mr-1" />
-                            Details
+                  complaints.map((c) => {
+                    const sla = getSlaInfo(c.created_at, c.category, c.status, c.resolved_at);
+
+                    return (
+                      <tr key={c.id} className="hover:bg-slate-50/70 transition-colors">
+                        <td className="px-4 py-3.5 font-mono font-bold text-slate-900 whitespace-nowrap">
+                          {c.tracking_code}
+                        </td>
+                        <td className="px-4 py-3.5 font-medium text-slate-900 max-w-[200px] truncate">
+                          <Link
+                            to={`/admin/complaints/${c.id}`}
+                            className="hover:text-blue-600 transition-colors"
+                          >
+                            {c.title}
+                          </Link>
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <CategoryBadge category={c.category} />
+                        </td>
+                        <td className="px-4 py-3.5 max-w-[150px] truncate text-slate-500">
+                          {c.campus_location}
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap font-medium text-slate-700">
+                          {c.student_profile?.full_name || 'Student'}
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <StatusBadge status={c.status} />
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${sla.badgeColor}`}>
+                            {sla.remainingText}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-right whitespace-nowrap space-x-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleOpenStatusModal(c)}
+                            className="text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          >
+                            <Edit3 className="w-3.5 h-3.5 mr-1" />
+                            Update
                           </Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  ))
+                          <Link to={`/admin/complaints/${c.id}`}>
+                            <Button variant="outline" size="sm" className="text-xs">
+                              <Eye className="w-3.5 h-3.5 mr-1" />
+                              Details
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Mobile / Small Screen Card View (Shown on < md screens) */}
+        <div className="block md:hidden space-y-3">
+          {isLoading ? (
+            <div className="p-8 text-center text-slate-400 bg-white rounded-xl border border-slate-200 text-xs">
+              Loading complaints...
+            </div>
+          ) : complaints.length === 0 ? (
+            <div className="p-8 text-center text-slate-400 bg-white rounded-xl border border-slate-200 text-xs">
+              No complaints match the specified filters.
+            </div>
+          ) : (
+            complaints.map((c) => {
+              const sla = getSlaInfo(c.created_at, c.category, c.status, c.resolved_at);
+
+              return (
+                <div
+                  key={c.id}
+                  className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-bold bg-slate-100 text-slate-900 px-2 py-0.5 rounded">
+                      {c.tracking_code}
+                    </span>
+                    <StatusBadge status={c.status} />
+                  </div>
+
+                  <div>
+                    <Link
+                      to={`/admin/complaints/${c.id}`}
+                      className="font-bold text-sm text-slate-900 hover:text-blue-600 line-clamp-1"
+                    >
+                      {c.title}
+                    </Link>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">{c.campus_location}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+                    <div className="flex items-center gap-1">
+                      <User className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{c.student_profile?.full_name || 'Student'}</span>
+                    </div>
+                    <CategoryBadge category={c.category} />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1 text-[11px]">
+                    <span className={`px-2 py-0.5 rounded-full border ${sla.badgeColor}`}>
+                      {sla.remainingText}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleOpenStatusModal(c)}
+                        className="text-xs text-blue-600 hover:text-blue-700 py-1 h-auto"
+                      >
+                        Update
+                      </Button>
+                      <Link to={`/admin/complaints/${c.id}`}>
+                        <Button variant="outline" size="sm" className="text-xs py-1 h-auto">
+                          View
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -297,9 +418,12 @@ export const AdminDashboard: React.FC = () => {
           maxWidth="md"
         >
           <form onSubmit={handleSaveStatus} className="space-y-4">
-            <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
               <p>
                 <strong>Title:</strong> {activeComplaint.title}
+              </p>
+              <p>
+                <strong>Category:</strong> {activeComplaint.category}
               </p>
               <p>
                 <strong>Current Status:</strong>{' '}
@@ -316,29 +440,50 @@ export const AdminDashboard: React.FC = () => {
               <select
                 value={targetStatus}
                 onChange={(e) => setTargetStatus(e.target.value as ComplaintStatus)}
-                className="w-full rounded-lg border border-slate-300 p-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                className="w-full rounded-xl border border-slate-300 p-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white"
               >
-                <option value="open">Open / Pending</option>
-                <option value="in_progress">In Progress (Maintenance Dispatched)</option>
+                <option value="open">Open / Pending Review</option>
+                <option value="in_progress">In Progress (Maintenance Team Dispatched)</option>
                 <option value="resolved">Resolved (Completed & Verified)</option>
               </select>
             </div>
 
             {targetStatus === 'resolved' && (
-              <Textarea
-                label="Official Resolution Note (Mandatory for resolution)"
-                placeholder="Explain the technical fix performed (e.g. replaced router, repaired plumbing seal, patched ceiling)..."
-                required
-                rows={3}
-                value={resolutionNote}
-                onChange={(e) => setResolutionNote(e.target.value)}
-                error={updateError || undefined}
-                helperText="This note will be visible to the student and stored in audit history."
-              />
+              <div className="space-y-2">
+                <Textarea
+                  label="Official Resolution Note (Mandatory for resolution)"
+                  placeholder="Explain the technical fix performed (e.g. replaced AP firmware, repaired leaking valve, replaced HDMI interface)..."
+                  required
+                  rows={3}
+                  value={resolutionNote}
+                  onChange={(e) => setResolutionNote(e.target.value)}
+                  error={updateError || undefined}
+                  helperText="This note is permanently recorded in the UGC Grievance audit trail."
+                />
+
+                {/* Quick Resolution Note Template Pills */}
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                    1-Click Resolution Templates:
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {RESOLUTION_TEMPLATES.map((tpl, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setResolutionNote(tpl)}
+                        className="text-[10px] px-2 py-0.5 rounded-md bg-white border border-slate-200 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-left line-clamp-1"
+                      >
+                        {tpl}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             )}
 
             {updateError && targetStatus !== 'resolved' && (
-              <p className="text-xs text-red-600 font-medium">{updateError}</p>
+              <p className="text-xs text-rose-600 font-medium">{updateError}</p>
             )}
 
             <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">

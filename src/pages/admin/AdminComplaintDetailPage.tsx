@@ -15,7 +15,8 @@ import { Modal } from '@/components/ui/Modal';
 import { Textarea } from '@/components/ui/Textarea';
 import { StatusTimeline } from '@/components/complaints/StatusTimeline';
 import { CommentThread } from '@/components/complaints/CommentThread';
-import { formatDate } from '@/lib/utils';
+import { formatDate, getDepartment, getSlaInfo } from '@/lib/utils';
+import { PrintableDossierModal } from '@/components/complaints/PrintableDossierModal';
 import {
   ArrowLeft,
   MapPin,
@@ -27,6 +28,9 @@ import {
   Loader2,
   Maximize2,
   ShieldAlert,
+  Printer,
+  Building,
+  Clock,
 } from 'lucide-react';
 
 export const AdminComplaintDetailPage: React.FC = () => {
@@ -46,8 +50,9 @@ export const AdminComplaintDetailPage: React.FC = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-  // Image preview modal
+  // Image preview modal & Printable Dossier modal
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isDossierOpen, setIsDossierOpen] = useState(false);
 
   const loadDetails = async () => {
     if (!id) return;
@@ -154,7 +159,15 @@ export const AdminComplaintDetailPage: React.FC = () => {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsDossierOpen(true)}
+              leftIcon={<Printer className="w-4 h-4 text-slate-600" />}
+            >
+              Print Official Dossier
+            </Button>
             <StatusBadge status={complaint.status} className="text-sm px-3.5 py-1.5" />
             <Button
               variant="primary"
@@ -164,6 +177,19 @@ export const AdminComplaintDetailPage: React.FC = () => {
             >
               Update Ticket Status
             </Button>
+          </div>
+        </div>
+
+        {/* SLA and Department Strip */}
+        <div className="mt-3 flex flex-wrap items-center gap-4 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+          <div className="flex items-center gap-1.5 text-slate-700">
+            <Building className="w-4 h-4 text-blue-600 shrink-0" />
+            <span>Assigned Unit: <strong>{getDepartment(complaint.category)}</strong></span>
+          </div>
+          <span className="text-slate-300 hidden sm:inline">•</span>
+          <div className="flex items-center gap-1.5">
+            <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+            <span>SLA Standard: <strong className="text-blue-900">{getSlaInfo(complaint.created_at, complaint.category, complaint.status, complaint.resolved_at).remainingText}</strong></span>
           </div>
         </div>
       </div>
@@ -377,6 +403,13 @@ export const AdminComplaintDetailPage: React.FC = () => {
           </div>
         </Modal>
       )}
+      {/* Printable Official Dossier Modal */}
+      <PrintableDossierModal
+        isOpen={isDossierOpen}
+        onClose={() => setIsDossierOpen(false)}
+        complaint={complaint}
+        history={history}
+      />
     </div>
   );
 };

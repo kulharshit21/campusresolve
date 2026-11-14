@@ -1,37 +1,57 @@
 # CampusResolve — Smart Campus Complaint & Issue Management System
 
 > **University Final Review Project — November 2026**  
-> *A Real-Time, Production-Style Web Platform for University Facilities & Student Issue Resolution*
+> *A Real-Time, Enterprise Campus Grievance Platform for Apex Institute of Technology & Engineering*  
+> **Live Production URL**: [https://campusresolve-theta.vercel.app](https://campusresolve-theta.vercel.app)
 
 [![CI](https://github.com/campusresolve/campusresolve/actions/workflows/ci.yml/badge.svg)](https://github.com/campusresolve/campusresolve/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ecf8e.svg)](https://supabase.com/)
+[![Deployment](https://img.shields.io/badge/Vercel-Production-000000.svg)](https://campusresolve-theta.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
 ## 📌 Project Overview
 
-**CampusResolve** is an institutional web application that replaces informal, untracked campus complaints (such as verbal requests or informal messaging groups) with a centralized digital platform. 
+**CampusResolve** is an institutional web platform that replaces informal, untracked campus complaints (such as verbal requests or informal WhatsApp messages) with a centralized digital grievance management system.
 
-- **Students** submit geotagged issues across categories (Wi-Fi, Electrical, Plumbing, Hostel, Classroom), upload photographic evidence, receive a unique tracking identifier (`CR-YYYY-XXXX`), and monitor resolution progress on a step-by-step timeline.
-- **Campus Administrators** manage incoming complaints through a real-time management portal with category analytics, dispatch maintenance staff, update ticket statuses, and log official resolution notes.
+- **Students**: Submit geotagged issues across campus categories (Wi-Fi, Electrical, Plumbing, Hostel, Classroom), upload photographic evidence, select location presets, receive an immutable tracking identifier (`CR-YYYY-XXXX`), and monitor resolution progress on a step-by-step visual timeline.
+- **Campus Administrators**: Manage incoming complaints through a real-time management portal with live Recharts analytics, monitor SLA deadlines, dispatch maintenance staff, update ticket statuses, and log official resolution notes.
 - **Real-Time Synchronization**: Built with **Supabase Realtime**, status updates push to active student client dashboards instantly via WebSockets without requiring manual page reloads.
+- **University Governance Compliance**: Integrates UGC grievance redressing standards, automatic department routing (ICT Infrastructure, Electrical & Power, Estate & Works, Hostel Welfare, Academic Facilities), SLA monitoring, and official printable committee dossiers.
 
 ---
 
-## 🚀 Key Features
+## 🔑 Tested Reviewer Accounts (Instant Access)
 
-- **Institutional Design**: Clean, accessible UI designed for academic environments using Tailwind CSS and Lucide icons.
-- **Dual Role Dashboards**: Separate, protected portals for **Students** and **Administrators**.
-- **Automated Tracking Identifiers**: Generates unique ticket codes (e.g., `CR-2026-1001`).
-- **Photographic Evidence Upload**: Supports client-side verified image attachments (JPEG, PNG, WebP &le; 5MB).
-- **Progress Lifecycle**: Visual 3-stage progress tracking (`Open` &rarr; `In Progress` &rarr; `Resolved`).
+| Role | Name | Email | Password | Access Note |
+|---|---|---|---|---|
+| **Chief Administrator** | **Harshit Kulkarni** | `harshitkulkarni608@gmail.com` | `password123` | Full access, analytics, SLA monitoring |
+| **Campus Administrator** | Dr. Anita Desai | `admin.anita@campus.edu` | `admin123` | Department operations |
+| **Student** | Rahul Sharma | `rahul.student@campus.edu` | `password123` | CS Dept student, active complaints |
+| **Student** | Priya Patel | `priya.student@campus.edu` | `password123` | Hostel student |
+
+*Note: You can switch accounts with 1 click using the **Reviewer Persona Switcher** dropdown in the top navigation header on any page.*
+
+---
+
+## 🚀 Key Enterprise Features
+
+- **Anti-AI Human-Crafted UX**: Designed specifically for institutional operations with University branding, UGC statutory compliance notice, and real-world campus workflows.
+- **Instant Public Ticket Lookup**: Anyone can track a complaint on the landing page using its tracking ID (e.g., `CR-2026-1001`) without prior login.
+- **Enterprise Command Palette (`Ctrl+K` / `Cmd+K`)**: Global search modal to quickly jump to tickets, campus locations, or departments.
+- **Official Printable UGC Grievance Dossier**: 1-click printable committee dossier with academic letterhead, complete audit history, and physical signature lines (`@media print`).
+- **SLA Breach Monitoring**: Real-time SLA indicators calculating remaining hours (Urgent 8h, Standard 24h, Routine 72h).
+- **Institutional Department Auto-Routing**: Automatic routing based on issue category.
+- **CSV Audit Export**: Instant export of all grievance records and audit trails for NAAC/NIRF reporting.
+- **Dual Responsive Layout**: Rich sortable data table on desktop, and touch-optimized card deck on mobile/tablet viewports.
+- **Notification Drawer**: Sliding notifications panel tracking unread alerts and status updates.
 - **Database-Enforced Audit Trail**: PostgreSQL triggers automatically log every status transition with changer identity and timestamps into `complaint_status_history`.
-- **Row Level Security (RLS)**: Enforces access control directly inside the database engine.
-- **Reviewer Persona Quick-Switch**: Instant 1-click toggling between Student and Administrator accounts for panel demonstrations.
+- **Row Level Security (RLS)**: Enforces strict data access rules directly inside PostgreSQL.
+- **Serverless API Authentication**: Dedicated `api/auth-signup.ts` endpoint confirming users via Supabase Admin API with zero email bounce risk.
 
 ---
 

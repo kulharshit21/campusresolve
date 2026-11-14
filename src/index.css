@@ -10,6 +10,7 @@
 
   body {
     @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white;
+    overflow-x: hidden;
   }
 }
 
@@ -33,4 +34,23 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Print Stylesheet for Official University Dossier */
+@media print {
+  header, footer, nav, button, .print\:hidden {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #printable-dossier-content {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+  }
 }

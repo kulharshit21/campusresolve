@@ -37,6 +37,22 @@ const SESSION_STORAGE_KEY = 'campusresolve_active_session';
 
 const INITIAL_ACCOUNTS: RegisteredAccount[] = [
   {
+    id: 'ab6eed84-528d-4393-b4a4-62ee54d01ee7',
+    full_name: 'Harshit Kulkarni (Chief Admin)',
+    email: 'harshitkulkarni608@gmail.com',
+    password: 'password123',
+    role: 'admin',
+    created_at: new Date(Date.now() - 60 * 86400 * 1000).toISOString(),
+  },
+  {
+    id: '9eeb8542-3638-45be-91fd-9c375cea032f',
+    full_name: 'Harshit Kulkarni (Chief Admin)',
+    email: 'harshitkulkarni608@gmial.com',
+    password: 'password123',
+    role: 'admin',
+    created_at: new Date(Date.now() - 60 * 86400 * 1000).toISOString(),
+  },
+  {
     id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
     full_name: 'Rahul Sharma',
     email: 'rahul.student@campus.edu',
@@ -401,7 +417,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const currentAccounts = getStoredAccounts();
     const target =
       currentAccounts.find((acc) => acc.role === selectedRole) ||
-      (selectedRole === 'admin' ? INITIAL_ACCOUNTS[2] : INITIAL_ACCOUNTS[0]);
+      (selectedRole === 'admin' ? INITIAL_ACCOUNTS[0] : INITIAL_ACCOUNTS[2]);
 
     const profile: UserProfile = {
       id: target.id,
@@ -413,6 +429,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setUser(profile);
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(profile));
+
+    if (isSupabaseConfigured && target.password) {
+      supabase.auth
+        .signInWithPassword({
+          email: target.email,
+          password: target.password,
+        })
+        .catch(() => {});
+    }
   };
 
   const isAdmin = user?.role === 'admin';

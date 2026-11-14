@@ -105,24 +105,24 @@ export const ProfilePage: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <Button
-                  variant={user.role === 'student' ? 'primary' : 'outline'}
+                  variant={user.email === 'rahul.student@campus.edu' ? 'primary' : 'outline'}
                   size="sm"
                   onClick={() => demoLogin('student')}
                   leftIcon={<ShieldCheck className="w-3.5 h-3.5" />}
                   className="w-full justify-start text-xs"
                 >
-                  Switch to Student (Rahul)
+                  Student: Rahul (Hostel 4)
                 </Button>
                 <Button
-                  variant={user.role === 'admin' ? 'secondary' : 'outline'}
+                  variant={user.email === 'harshitkulkarni608@gmail.com' ? 'secondary' : 'outline'}
                   size="sm"
                   onClick={() => demoLogin('admin')}
-                  leftIcon={<ShieldAlert className="w-3.5 h-3.5" />}
+                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-500" />}
                   className="w-full justify-start text-xs"
                 >
-                  Switch to Admin (Dr. Anita)
+                  Admin: Harshit Kulkarni
                 </Button>
               </div>
             </CardContent>

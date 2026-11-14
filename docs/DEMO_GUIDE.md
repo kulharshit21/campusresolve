@@ -1,6 +1,7 @@
 # CampusResolve — Final Review Demonstration & Viva Guide
 
 This document is prepared specifically for university final review panel presentation and viva voce examination.
+Production Deployment: **[https://campusresolve-theta.vercel.app](https://campusresolve-theta.vercel.app)**
 
 ---
 
@@ -8,25 +9,38 @@ This document is prepared specifically for university final review panel present
 
 > *"Respected panel members, in most university campuses today, maintenance issues—such as broken lab Wi-Fi, leaking hostel plumbing, or malfunctioning classroom projectors—are reported verbally or across unorganized WhatsApp groups, leading to zero accountability and lost complaints.*
 >
-> *We built **CampusResolve**: a real-time smart campus issue management platform. Students submit geotagged complaints with photographic evidence and receive an immutable tracking ID. Campus administrators manage tickets, dispatch maintenance teams, and update statuses. With Supabase Realtime and PostgreSQL Row Level Security, updates reflect immediately on student dashboards without page reloads, ensuring full institutional transparency."*
+> *We built **CampusResolve**: a real-time smart campus issue management platform for **Apex Institute of Technology & Engineering**. Students submit geotagged complaints with photographic evidence and receive an immutable tracking ID. Campus administrators manage tickets, dispatch maintenance teams, and update statuses. With automated SLA compliance tracking, department auto-routing, printable UGC grievance dossiers, and real-time database synchronization via Supabase PostgreSQL, CampusResolve ensures full institutional transparency across both desktop and mobile devices."*
 
 ---
 
-## 2. Three-Minute Live Demonstration Walkthrough
+## 2. Tested Reviewer Credentials
+
+| Persona | Name | Role | Email | Password |
+|---|---|---|---|---|
+| **Chief Administrator** | **Harshit Kulkarni** | `admin` | `harshitkulkarni608@gmail.com` | `password123` |
+| **Campus Administrator** | Dr. Anita Desai | `admin` | `admin.anita@campus.edu` | `admin123` |
+| **Student** | Rahul Sharma | `student` | `rahul.student@campus.edu` | `password123` |
+| **Student** | Priya Patel | `student` | `priya.student@campus.edu` | `password123` |
+
+*Tip: You can also use the 1-click **Reviewer Persona Switcher** dropdown in the top navigation header on any page to switch identities instantly without logging out!*
+
+---
+
+## 3. Three-Minute Live Demonstration Walkthrough
 
 Follow this step-by-step sequence during the project review:
 
 | Step | Action on Screen | What to Say |
 |---|---|---|
-| **1. Landing Page** | Show landing page (`http://localhost:5173/`). Point out the project badge, workflow steps, and institutional categories. | *"Here is our landing page introducing the system, featuring structured campus categories like Wi-Fi, Electrical, and Hostel facilities."* |
-| **2. Fast Persona Switch** | Click **"Test as Student (Rahul)"** in the review banner or on the login page. | *"We have integrated one-click reviewer access. Let's enter the student portal as Rahul Sharma."* |
-| **3. Student Dashboard** | Point to the 4 metric cards (Total, Open, In Progress, Resolved) and recent tickets. | *"Rahul's dashboard shows real-time metrics of his active tickets and recent maintenance history."* |
-| **4. Submit New Complaint** | Click **"Log New Complaint"**. Fill in: Title: `Lab 2 Wi-Fi disconnected`, Category: `Wi-Fi / Network`, Location: `Computer Lab 2, Row 3`, Description: `Signal drops every 3 minutes`. Attach sample photo. Click **Submit**. | *"Rahul submits a ticket with photographic evidence. The system generates a unique tracking code (e.g. CR-2026-1005) and records the initial audit log."* |
-| **5. Review Complaint Detail** | Click **"View Status & Timeline"** on the confirmation dialog. | *"Notice the 3-stage visual progress timeline: Open, In Progress, and Resolved."* |
-| **6. Switch to Admin** | Click the profile icon in the top right and click **"Switch to Admin (Dr. Anita)"**. | *"Now we switch to Dr. Anita Desai, the Campus Administrator."* |
-| **7. Admin Portal & Analytics** | Point out the Recharts bar chart (Category breakdown) and pie chart (Resolution status). | *"The admin portal aggregates campus-wide analytics and provides a central registry table of all student issues."* |
-| **8. Status Transition** | Locate the new ticket in the registry table. Click **"Update"**. Select **"In Progress"** and add note: *"Network engineer dispatched with replacement router"*. Save. | *"Dr. Anita assigns the technician. The status changes in the database and audit trail."* |
-| **9. Verify Realtime & Resolution** | Update the status to **"Resolved"** and input the official resolution note. Switch back to student view to show the completed timeline and note. | *"The student dashboard reflects the resolved status, technician resolution notes, and complete timestamped audit history."* |
+| **1. Landing Page** | Show landing page (`https://campusresolve-theta.vercel.app`). Point out the institutional badge, SLA promise, UGC compliance notice, and live metrics ticker (5 Total, 1 Resolved, 94.2% SLA). | *"Here is our landing page for Apex Institute of Technology & Engineering, showcasing live institutional statistics, UGC compliance notices, and instant ticket tracking."* |
+| **2. Instant Public Ticket Tracking** | In the "Track Any Ticket Instantly" box on the landing page, enter `CR-2026-1001` and click **Track Ticket**. | *"Even before logging in, students or parents can track any grievance transparently using their unique tracking ID."* |
+| **3. Fast Persona Switch** | Click the **Reviewer Persona** pill in the top navbar and select **"Harshit Kulkarni (Chief Admin)"**. | *"We have integrated one-click reviewer access. Let's enter the administrative portal as Chief Administrator Harshit Kulkarni."* |
+| **4. Admin Portal & Analytics** | Point out the 4 metric cards, Recharts analytics (Category & Status), SLA breakdown, and the dual responsive view (Table on desktop, Cards on mobile). | *"Chief Admin Harshit has a bird's-eye view of all complaints across departments. The dashboard automatically calculates remaining SLA windows (e.g. 8h urgent vs 72h routine)."* |
+| **5. Command Palette (Ctrl+K)** | Press `Ctrl+K` (or `Cmd+K` on Mac, or tap the search icon). Type `Lab` or `CR-2026-1002`. | *"The system features an enterprise Command Palette for instant navigation and grievance lookup."* |
+| **6. Official Printable UGC Dossier** | Click into ticket `CR-2026-1001` or `CR-2026-1002`, and click **"Print Official Dossier"**. | *"CampusResolve generates a formal UGC-formatted Grievance Dossier with institutional letterhead, SLA audit history, and signature blocks ready for inspection committees."* |
+| **7. Export CSV Audit Report** | On the Admin Dashboard, click **"Export CSV Report"**. | *"Administrators can export the entire grievance audit trail to CSV for institutional accreditation (NAAC/NIRF) reporting."* |
+| **8. Switch to Student & Log Complaint** | Switch persona to **Rahul Sharma (Student)**. Click **"Log New Complaint"**. Use the quick campus preset chips (e.g. `CS Dept - Computer Lab 2`), choose `Wi-Fi / Network`, notice the live SLA guarantee banner, attach photo, and submit. | *"Students benefit from location presets, live SLA previews, and real-time character counters."* |
+| **9. Verify Status Transition & Audit** | Switch back to Harshit Kulkarni, click **"Update Status"**, select **"Resolved"**, pick a quick resolution template (e.g., *Replaced faulty hardware & verified signal*), and save. | *"The status updates instantaneously with resolution notes and an immutable database audit trail."* |
 
 ---
 

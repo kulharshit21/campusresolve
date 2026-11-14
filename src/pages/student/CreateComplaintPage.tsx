@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { COMPLAINT_CATEGORIES, ComplaintCategory, Complaint } from '@/types';
 import { createComplaint } from '@/services/complaintService';
 import { uploadComplaintEvidence } from '@/services/storageService';
+import { CAMPUS_LOCATION_PRESETS, CATEGORY_DEPARTMENT, CATEGORY_SLA_HOURS } from '@/lib/constants';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
@@ -182,15 +183,51 @@ export const CreateComplaintPage: React.FC = () => {
                 ))}
               </Select>
 
-              <Input
-                label="Campus Location"
-                placeholder="e.g. Academic Block B, 3rd Floor, Room 304"
-                required
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                leftIcon={<MapPin className="w-4 h-4" />}
-                helperText="Specify building, floor, wing, or room"
-              />
+              <div className="space-y-1">
+                <Input
+                  label="Campus Location"
+                  placeholder="e.g. Academic Block B, 3rd Floor, Room 304"
+                  required
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  leftIcon={<MapPin className="w-4 h-4" />}
+                  helperText="Specify building, floor, wing, or room"
+                />
+              </div>
+            </div>
+
+            {/* Quick Location Presets Chips */}
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80">
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                Quick Campus Location Presets:
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {CAMPUS_LOCATION_PRESETS.map((preset) => (
+                  <button
+                    key={preset.landmark}
+                    type="button"
+                    onClick={() => setLocation(`${preset.zone}, ${preset.landmark}`)}
+                    className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 border border-slate-200 text-slate-700 transition-colors"
+                  >
+                    {preset.landmark}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Department & SLA Information Banner */}
+            <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80 flex items-start gap-3">
+              <div className="p-1.5 rounded-lg bg-blue-100 text-blue-700 shrink-0 mt-0.5">
+                <MapPin className="w-4 h-4" />
+              </div>
+              <div className="text-xs">
+                <p className="font-bold text-blue-950">
+                  Target Redressal SLA: {CATEGORY_SLA_HOURS[category]} Hours
+                </p>
+                <p className="text-blue-800 mt-0.5">
+                  Assigned Unit: <span className="font-semibold">{CATEGORY_DEPARTMENT[category]}</span>
+                </p>
+              </div>
             </div>
 
             {/* Description */}
@@ -201,7 +238,7 @@ export const CreateComplaintPage: React.FC = () => {
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              helperText="Be as specific as possible to assist technicians"
+              helperText={`Be as specific as possible to assist technicians (${description.length} characters)`}
             />
 
             {/* Photographic Evidence File Upload */}

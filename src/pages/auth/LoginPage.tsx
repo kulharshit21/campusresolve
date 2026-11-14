@@ -127,20 +127,22 @@ export const LoginPage: React.FC = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => handleDemoClick('student')}
-                  className="text-xs"
-                  leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-blue-600" />}
+                  className="text-xs flex flex-col items-center py-2 h-auto"
+                  leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-blue-600 mb-0.5" />}
                 >
-                  Student Portal
+                  <span className="font-semibold">Student Portal</span>
+                  <span className="text-[10px] text-slate-400 font-normal">rahul.student@campus.edu</span>
                 </Button>
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
                   onClick={() => handleDemoClick('admin')}
-                  className="text-xs"
-                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-400" />}
+                  className="text-xs flex flex-col items-center py-2 h-auto"
+                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-400 mb-0.5" />}
                 >
-                  Admin Portal
+                  <span className="font-semibold">Admin Portal</span>
+                  <span className="text-[10px] text-slate-300 font-normal">harshitkulkarni608@gmail.com</span>
                 </Button>
               </div>
             </div>

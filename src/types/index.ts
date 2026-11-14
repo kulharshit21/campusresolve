@@ -32,6 +32,8 @@ export const COMPLAINT_CATEGORIES: ComplaintCategory[] = [
 
 export type ComplaintStatus = 'open' | 'in_progress' | 'resolved';
 
+export type ComplaintPriority = 'critical' | 'high' | 'medium' | 'low';
+
 export interface Complaint {
   id: string;
   tracking_code: string;
@@ -41,6 +43,7 @@ export interface Complaint {
   category: ComplaintCategory;
   campus_location: string;
   status: ComplaintStatus;
+  priority?: ComplaintPriority;
   image_url?: string | null;
   resolution_note?: string | null;
   resolved_at?: string | null;
@@ -51,6 +54,17 @@ export interface Complaint {
     email?: string;
     role?: UserRole;
   };
+}
+
+export interface InAppNotification {
+  id: string;
+  title: string;
+  message: string;
+  time: string;
+  read: boolean;
+  type: 'status_change' | 'comment' | 'system';
+  complaintId?: string;
+  trackingCode?: string;
 }
 
 export interface ComplaintComment {
