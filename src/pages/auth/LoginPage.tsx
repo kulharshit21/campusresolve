@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/Card';
 import { Alert } from '@/components/ui/Alert';
-import { ShieldAlert, LogIn, Lock, Mail, ShieldCheck } from 'lucide-react';
+import { ShieldAlert, LogIn, Lock, Mail } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ export const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { signIn, demoLogin } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,21 +40,12 @@ export const LoginPage: React.FC = () => {
     if (from) {
       navigate(from, { replace: true });
     } else {
-      const targetRole = signedInUser?.role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+      const targetRole = signedInUser?.role || 'student';
       if (targetRole === 'admin') {
         navigate('/admin/dashboard', { replace: true });
       } else {
         navigate('/student/dashboard', { replace: true });
       }
-    }
-  };
-
-  const handleDemoClick = (role: 'student' | 'admin') => {
-    demoLogin(role);
-    if (role === 'admin') {
-      navigate('/admin/dashboard', { replace: true });
-    } else {
-      navigate('/student/dashboard', { replace: true });
     }
   };
 
@@ -115,37 +106,6 @@ export const LoginPage: React.FC = () => {
                 Sign In to Account
               </Button>
             </form>
-
-            {/* Quick Demo Fill Buttons for Reviewers */}
-            <div className="mt-6 pt-5 border-t border-slate-100">
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-400 text-center mb-3">
-                Reviewer Quick Sign-In
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDemoClick('student')}
-                  className="text-xs flex flex-col items-center py-2 h-auto"
-                  leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-blue-600 mb-0.5" />}
-                >
-                  <span className="font-semibold">Student Portal</span>
-                  <span className="text-[10px] text-slate-400 font-normal">rahul.student@campus.edu</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => handleDemoClick('admin')}
-                  className="text-xs flex flex-col items-center py-2 h-auto"
-                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-400 mb-0.5" />}
-                >
-                  <span className="font-semibold">Admin Portal</span>
-                  <span className="text-[10px] text-slate-300 font-normal">harshitkulkarni608@gmail.com</span>
-                </Button>
-              </div>
-            </div>
           </CardContent>
           <CardFooter className="justify-center text-xs text-slate-500">
             Don't have an account yet?{' '}

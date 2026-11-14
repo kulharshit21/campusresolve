@@ -34,7 +34,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     image_url: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800',
     created_at: new Date(Date.now() - 36 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Rahul Sharma', email: 'rahul.student@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Campus Scholar', email: 'student1@campusresolve.edu', role: 'student' },
   },
   {
     id: 'c-102',
@@ -48,7 +48,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     status: 'open',
     created_at: new Date(Date.now() - 14 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 14 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Rahul Sharma', email: 'rahul.student@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Campus Scholar', email: 'student1@campusresolve.edu', role: 'student' },
   },
   {
     id: 'c-103',
@@ -64,7 +64,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     resolved_at: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
     created_at: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Priya Patel', email: 'priya.student@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Hostel Scholar', email: 'student2@campusresolve.edu', role: 'student' },
   },
   {
     id: 'c-104',
@@ -78,7 +78,7 @@ const INITIAL_COMPLAINTS: Complaint[] = [
     status: 'open',
     created_at: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
-    student_profile: { full_name: 'Priya Patel', email: 'priya.student@campus.edu', role: 'student' },
+    student_profile: { full_name: 'Hostel Scholar', email: 'student2@campusresolve.edu', role: 'student' },
   },
 ];
 

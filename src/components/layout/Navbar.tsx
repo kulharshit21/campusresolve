@@ -18,7 +18,6 @@ import {
 import { isSupabaseConfigured } from '@/integrations/supabase/client';
 import { QuickSearchModal } from '@/components/common/QuickSearchModal';
 import { NotificationDrawer } from '@/components/common/NotificationDrawer';
-import { ReviewerPersonaSwitcher } from '@/components/common/ReviewerPersonaSwitcher';
 
 export const Navbar: React.FC = () => {
   const { user, isAdmin, isStudent, signOut } = useAuth();
@@ -97,9 +96,6 @@ export const Navbar: React.FC = () => {
 
             {/* Desktop Navigation & Actions */}
             <nav className="hidden md:flex items-center gap-2">
-              {/* Persona Switcher Pill */}
-              <ReviewerPersonaSwitcher />
-
               {/* Search Icon button */}
               <button
                 onClick={() => setSearchOpen(true)}
@@ -224,8 +220,6 @@ export const Navbar: React.FC = () => {
 
             {/* Mobile Actions & Menu Button */}
             <div className="flex md:hidden items-center gap-1.5">
-              <ReviewerPersonaSwitcher />
-
               <button
                 onClick={() => setSearchOpen(true)}
                 className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"

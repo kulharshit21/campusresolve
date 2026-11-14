@@ -13,16 +13,15 @@ Production Deployment: **[https://campusresolve-theta.vercel.app](https://campus
 
 ---
 
-## 2. Tested Reviewer Credentials
+## 2. Tested Accounts & Credentials
 
-| Persona | Name | Role | Email | Password |
+| Role | Name | Email | Password | Access Highlights |
 |---|---|---|---|---|
-| **Chief Administrator** | **Harshit Kulkarni** | `admin` | `harshitkulkarni608@gmail.com` | `password123` |
-| **Campus Administrator** | Dr. Anita Desai | `admin` | `admin.anita@campus.edu` | `admin123` |
-| **Student** | Rahul Sharma | `student` | `rahul.student@campus.edu` | `password123` |
-| **Student** | Priya Patel | `student` | `priya.student@campus.edu` | `password123` |
+| **Chief Administrator** | **Harshit Kulkarni** | `harshitkulkarni608@gmail.com` | `password123` | Full administrative control, SLA monitoring, CSV export, and official UGC dossier printing |
+| **Student (Computer Science)** | **Harshit Kulkarni** | `hk5119164@gmail.com` | `password123` | Active student complaints (Lab Wi-Fi & Water Dispenser) |
+| **Student (Hostel Resident)** | **hellofree** | `hellofree00007@gmail.com` | `password123` | Residential complaints (Auditorium & Library) |
 
-*Tip: You can also use the 1-click **Reviewer Persona Switcher** dropdown in the top navigation header on any page to switch identities instantly without logging out!*
+> **Security & Clean Design Note**: Admin credentials are kept strictly separate. There are no public demo switcher buttons or exposed credentials on the frontend. Simply go to **Log In** (`/login`), enter the credentials above, and the platform will automatically authenticate via Supabase Auth and route to the corresponding portal based on database-enforced roles (`role: 'admin'` &rarr; `/admin/dashboard`, `role: 'student'` &rarr; `/student/dashboard`).
 
 ---
 
@@ -32,15 +31,15 @@ Follow this step-by-step sequence during the project review:
 
 | Step | Action on Screen | What to Say |
 |---|---|---|
-| **1. Landing Page** | Show landing page (`https://campusresolve-theta.vercel.app`). Point out the institutional badge, SLA promise, UGC compliance notice, and live metrics ticker (5 Total, 1 Resolved, 94.2% SLA). | *"Here is our landing page for Apex Institute of Technology & Engineering, showcasing live institutional statistics, UGC compliance notices, and instant ticket tracking."* |
+| **1. Landing Page** | Show landing page (`https://campusresolve-theta.vercel.app`). Point out the clean university branding, SLA promise, UGC compliance notice, and live metrics ticker. | *"Here is our landing page for Apex Institute of Technology & Engineering, showcasing live institutional statistics, UGC compliance notices, and instant ticket tracking."* |
 | **2. Instant Public Ticket Tracking** | In the "Track Any Ticket Instantly" box on the landing page, enter `CR-2026-1001` and click **Track Ticket**. | *"Even before logging in, students or parents can track any grievance transparently using their unique tracking ID."* |
-| **3. Fast Persona Switch** | Click the **Reviewer Persona** pill in the top navbar and select **"Harshit Kulkarni (Chief Admin)"**. | *"We have integrated one-click reviewer access. Let's enter the administrative portal as Chief Administrator Harshit Kulkarni."* |
-| **4. Admin Portal & Analytics** | Point out the 4 metric cards, Recharts analytics (Category & Status), SLA breakdown, and the dual responsive view (Table on desktop, Cards on mobile). | *"Chief Admin Harshit has a bird's-eye view of all complaints across departments. The dashboard automatically calculates remaining SLA windows (e.g. 8h urgent vs 72h routine)."* |
+| **3. Clean Administrator Sign-In** | Click **Sign In**, enter `harshitkulkarni608@gmail.com` and `password123`. Click **Sign In**. | *"We log in through standard secure authentication. Since this account holds the admin role in Supabase, the system grants immediate access to the Campus Administration Portal."* |
+| **4. Admin Portal & Analytics** | Point out the 4 metric cards, Recharts analytics (Category & Status), SLA countdown indicators, and the dual responsive view (Table on desktop, Cards on mobile). | *"The administrator has a centralized view of all student grievances across campus divisions. The system automatically calculates real-time SLA windows."* |
 | **5. Command Palette (Ctrl+K)** | Press `Ctrl+K` (or `Cmd+K` on Mac, or tap the search icon). Type `Lab` or `CR-2026-1002`. | *"The system features an enterprise Command Palette for instant navigation and grievance lookup."* |
 | **6. Official Printable UGC Dossier** | Click into ticket `CR-2026-1001` or `CR-2026-1002`, and click **"Print Official Dossier"**. | *"CampusResolve generates a formal UGC-formatted Grievance Dossier with institutional letterhead, SLA audit history, and signature blocks ready for inspection committees."* |
 | **7. Export CSV Audit Report** | On the Admin Dashboard, click **"Export CSV Report"**. | *"Administrators can export the entire grievance audit trail to CSV for institutional accreditation (NAAC/NIRF) reporting."* |
-| **8. Switch to Student & Log Complaint** | Switch persona to **Rahul Sharma (Student)**. Click **"Log New Complaint"**. Use the quick campus preset chips (e.g. `CS Dept - Computer Lab 2`), choose `Wi-Fi / Network`, notice the live SLA guarantee banner, attach photo, and submit. | *"Students benefit from location presets, live SLA previews, and real-time character counters."* |
-| **9. Verify Status Transition & Audit** | Switch back to Harshit Kulkarni, click **"Update Status"**, select **"Resolved"**, pick a quick resolution template (e.g., *Replaced faulty hardware & verified signal*), and save. | *"The status updates instantaneously with resolution notes and an immutable database audit trail."* |
+| **8. Student Portal Walkthrough** | Click **Sign Out**, then log in as student with `hk5119164@gmail.com` / `password123`. Click **"Report Issue"**. Use the quick campus preset chips (e.g. `CS Dept - Computer Lab 2`), choose `Wi-Fi / Network`, attach photo, and submit. | *"Students benefit from location presets, live SLA previews, and real-time character counters with strict Row Level Security isolation."* |
+| **9. Verify Status Transition & Audit** | Log back in as admin, click **"Update"**, select **"Resolved"**, pick a resolution template, and save. Verify the update reflects instantly. | *"The status updates instantaneously with resolution notes and an immutable database audit trail."* |
 
 ---
 

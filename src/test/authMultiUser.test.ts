@@ -74,8 +74,8 @@ describe('CampusResolve Multi-User Profile & Work Isolation Verification', () =>
     // -------------------------------------------------------------
     const admin = {
       id: 'ad-anita-001',
-      full_name: 'Dr. Anita Desai (Campus Admin)',
-      email: 'admin.anita@campus.edu',
+      full_name: 'Campus Administrator',
+      email: 'admin@campusresolve.edu',
       role: 'admin' as const,
     };
 

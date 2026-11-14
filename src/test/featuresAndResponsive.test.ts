@@ -40,7 +40,7 @@ describe('CampusResolve Enterprise Features & SLA Verification', () => {
   });
 
   it('includes verified institutional contact info and admin contact', () => {
-    expect(UNIVERSITY_INFO.adminContact).toBe('harshitkulkarni608@gmail.com');
+    expect(UNIVERSITY_INFO.adminContact).toBe('admin@campusresolve.edu');
     expect(UNIVERSITY_INFO.portalName).toBe('CampusResolve');
     expect(UNIVERSITY_INFO.compliance).toContain('UGC');
   });

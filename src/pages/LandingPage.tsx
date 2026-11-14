@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import {
-  ShieldAlert,
   ArrowRight,
   Wifi,
   Zap,
@@ -20,17 +19,11 @@ import { fetchComplaintById } from '@/services/complaintService';
 import { Complaint } from '@/types';
 
 export const LandingPage: React.FC = () => {
-  const { user, isAdmin, demoLogin } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [trackCode, setTrackCode] = useState('');
   const [trackedTicket, setTrackedTicket] = useState<Complaint | null>(null);
   const [trackError, setTrackError] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
-  const navigate = useNavigate();
-
-  const handleQuickDemo = (role: 'student' | 'admin') => {
-    demoLogin(role);
-    navigate(role === 'admin' ? '/admin/dashboard' : '/student/dashboard');
-  };
 
   const handleQuickTrack = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +57,7 @@ export const LandingPage: React.FC = () => {
           <div className="hidden md:flex items-center gap-4 text-slate-400 text-[11px]">
             <span>Statutory Helpline: {UNIVERSITY_INFO.helpline}</span>
             <span>•</span>
-            <span className="text-amber-300">Admin: harshitkulkarni608@gmail.com</span>
+            <span className="text-slate-300">UGC Student Grievance Redressal</span>
           </div>
         </div>
       </div>
@@ -167,48 +160,11 @@ export const LandingPage: React.FC = () => {
                   </Link>
                   <Link to="/login" className="w-full sm:w-auto">
                     <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                      Authorized Admin Sign-In
+                      Sign In to Account
                     </Button>
                   </Link>
                 </>
               )}
-            </div>
-
-            {/* Reviewer Quick Access Panel */}
-            <div className="mt-8 p-4 rounded-xl bg-slate-900 text-white border border-slate-800 shadow-xl max-w-lg mx-auto">
-              <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  Faculty Viva & Review Quick-Login
-                </span>
-                <span className="text-[10px] text-amber-300 font-mono">1-Click Auth</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-xs bg-slate-800 border-slate-700 text-white hover:bg-slate-700 justify-start"
-                  onClick={() => handleQuickDemo('student')}
-                  leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
-                >
-                  <div className="text-left">
-                    <div className="font-bold">Student: Rahul Sharma</div>
-                    <div className="text-[10px] text-slate-400">rahul.student@campus.edu</div>
-                  </div>
-                </Button>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  className="text-xs bg-amber-500/20 border border-amber-500/40 text-amber-200 hover:bg-amber-500/30 justify-start"
-                  onClick={() => handleQuickDemo('admin')}
-                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
-                >
-                  <div className="text-left">
-                    <div className="font-bold">Admin: Harshit Kulkarni</div>
-                    <div className="text-[10px] text-amber-300/80">harshitkulkarni608@gmail.com</div>
-                  </div>
-                </Button>
-              </div>
             </div>
           </div>
         </div>

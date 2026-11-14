@@ -37,44 +37,20 @@ const SESSION_STORAGE_KEY = 'campusresolve_active_session';
 
 const INITIAL_ACCOUNTS: RegisteredAccount[] = [
   {
-    id: 'ab6eed84-528d-4393-b4a4-62ee54d01ee7',
-    full_name: 'Harshit Kulkarni (Chief Admin)',
-    email: 'harshitkulkarni608@gmail.com',
+    id: '00000000-0000-4000-8000-000000000001',
+    full_name: 'Campus Administrator',
+    email: 'admin@campusresolve.edu',
     password: 'password123',
     role: 'admin',
     created_at: new Date(Date.now() - 60 * 86400 * 1000).toISOString(),
   },
   {
-    id: '9eeb8542-3638-45be-91fd-9c375cea032f',
-    full_name: 'Harshit Kulkarni (Chief Admin)',
-    email: 'harshitkulkarni608@gmial.com',
-    password: 'password123',
-    role: 'admin',
-    created_at: new Date(Date.now() - 60 * 86400 * 1000).toISOString(),
-  },
-  {
-    id: 'db0fc7b6-c031-499e-9730-0880d8c9834d',
-    full_name: 'Rahul Sharma',
-    email: 'rahul.student@campus.edu',
+    id: '00000000-0000-4000-8000-000000000002',
+    full_name: 'Student Scholar',
+    email: 'student@campusresolve.edu',
     password: 'password123',
     role: 'student',
     created_at: new Date(Date.now() - 30 * 86400 * 1000).toISOString(),
-  },
-  {
-    id: 'c2672274-0899-4c65-a9dc-5f1c9e792cad',
-    full_name: 'Priya Patel',
-    email: 'priya.student@campus.edu',
-    password: 'password123',
-    role: 'student',
-    created_at: new Date(Date.now() - 20 * 86400 * 1000).toISOString(),
-  },
-  {
-    id: 'e691351d-233c-4a60-bf35-db8bdad713d8',
-    full_name: 'Dr. Anita Desai (Campus Admin)',
-    email: 'admin.anita@campus.edu',
-    password: 'admin123',
-    role: 'admin',
-    created_at: new Date(Date.now() - 60 * 86400 * 1000).toISOString(),
   },
 ];
 
@@ -233,41 +209,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     password: string
   ): Promise<{ error: Error | null; user?: UserProfile }> => {
     const normalizedEmail = email.trim().toLowerCase();
-    const currentAccounts = getStoredAccounts();
 
-    // 1. Check local persistent accounts repository
-    const matched = currentAccounts.find(
-      (acc) => acc.email.toLowerCase() === normalizedEmail
-    );
-
-    if (matched) {
-      // Verify password
-      if (matched.password && matched.password !== password) {
-        return {
-          error: new Error('Incorrect password. Please verify your credentials and try again.'),
-        };
-      }
-
-      const activeProfile: UserProfile = {
-        id: matched.id,
-        full_name: matched.full_name,
-        email: matched.email,
-        role: matched.role,
-        created_at: matched.created_at,
-      };
-
-      setUser(activeProfile);
-      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(activeProfile));
-
-      // Also attempt Supabase sign-in in background if configured
-      if (isSupabaseConfigured) {
-        supabase.auth.signInWithPassword({ email: normalizedEmail, password }).catch(() => {});
-      }
-
-      return { error: null, user: activeProfile };
-    }
-
-    // 2. If not found locally, and Supabase is configured, try Supabase Auth directly
+    // 1. Primary path: When Supabase is configured, authenticate directly against live Supabase Auth
     if (isSupabaseConfigured) {
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -284,18 +227,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (profile) {
             setUser(profile);
             localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(profile));
-
-            // Also register in local registry for fast retrieval
-            currentAccounts.push({
-              id: profile.id,
-              email: profile.email,
-              full_name: profile.full_name,
-              role: profile.role,
-              password,
-              created_at: profile.created_at || new Date().toISOString(),
-            });
-            saveStoredAccounts(currentAccounts);
-            setAccounts(currentAccounts);
             return { error: null, user: profile };
           }
         }
@@ -306,10 +237,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
 
-    // Account not found anywhere
+    // 2. Offline fixture fallback (for unit tests / development only)
+    const currentAccounts = getStoredAccounts();
+    const matched = currentAccounts.find(
+      (acc) => acc.email.toLowerCase() === normalizedEmail
+    );
+
+    if (matched) {
+      if (matched.password && matched.password !== password) {
+        return {
+          error: new Error('Incorrect password. Please verify your credentials and try again.'),
+        };
+      }
+
+      const activeProfile: UserProfile = {
+        id: matched.id,
+        full_name: matched.full_name,
+        email: matched.email,
+        role: matched.role,
+        created_at: matched.created_at,
+      };
+
+      setUser(activeProfile);
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(activeProfile));
+      return { error: null, user: activeProfile };
+    }
+
     return {
       error: new Error(
-        'No account found with this email address. Please click "Register here" to create a new profile.'
+        'Invalid email or password. Please verify your credentials and try again.'
       ),
     };
   };
@@ -417,7 +373,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const currentAccounts = getStoredAccounts();
     const target =
       currentAccounts.find((acc) => acc.role === selectedRole) ||
-      (selectedRole === 'admin' ? INITIAL_ACCOUNTS[0] : INITIAL_ACCOUNTS[2]);
+      (selectedRole === 'admin' ? INITIAL_ACCOUNTS[0] : INITIAL_ACCOUNTS[1]);
 
     const profile: UserProfile = {
       id: target.id,

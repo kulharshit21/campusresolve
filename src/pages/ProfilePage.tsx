@@ -8,18 +8,15 @@ import { formatDate } from '@/lib/utils';
 import {
   User,
   Mail,
-  Shield,
   Server,
   LogOut,
   Calendar,
   CheckCircle2,
   AlertCircle,
-  ShieldCheck,
-  ShieldAlert,
 } from 'lucide-react';
 
 export const ProfilePage: React.FC = () => {
-  const { user, signOut, demoLogin } = useAuth();
+  const { user, signOut } = useAuth();
 
   if (!user) return null;
 
@@ -88,41 +85,6 @@ export const ProfilePage: React.FC = () => {
                   className="text-xs hover:text-red-600"
                 >
                   Sign Out
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Persona Switcher for Viva / Project Review */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <Shield className="w-4 h-4 text-blue-600" />
-                Examiner Persona Switcher
-              </CardTitle>
-              <CardDescription>
-                Quickly toggle between Student and Admin personas to test role-based UI and RLS boundaries
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <Button
-                  variant={user.email === 'rahul.student@campus.edu' ? 'primary' : 'outline'}
-                  size="sm"
-                  onClick={() => demoLogin('student')}
-                  leftIcon={<ShieldCheck className="w-3.5 h-3.5" />}
-                  className="w-full justify-start text-xs"
-                >
-                  Student: Rahul (Hostel 4)
-                </Button>
-                <Button
-                  variant={user.email === 'harshitkulkarni608@gmail.com' ? 'secondary' : 'outline'}
-                  size="sm"
-                  onClick={() => demoLogin('admin')}
-                  leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-amber-500" />}
-                  className="w-full justify-start text-xs"
-                >
-                  Admin: Harshit Kulkarni
                 </Button>
               </div>
             </CardContent>

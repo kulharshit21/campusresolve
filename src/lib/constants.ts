@@ -7,8 +7,8 @@ export const UNIVERSITY_INFO = {
   tagline: 'Smart Campus Issue & Grievance Redressal System',
   compliance: 'Compliant with UGC (Redressal of Grievances of Students) Regulations',
   helpline: '+91 (080) 4123-8900',
-  supportEmail: 'grievance.cell@campus.edu',
-  adminContact: 'harshitkulkarni608@gmail.com',
+  supportEmail: 'grievance@campusresolve.edu',
+  adminContact: 'admin@campusresolve.edu',
 };
 
 export const STATUS_CONFIG: Record<

@@ -29,12 +29,11 @@
 
 | Role | Name | Email | Password | Access Note |
 |---|---|---|---|---|
-| **Chief Administrator** | **Harshit Kulkarni** | `harshitkulkarni608@gmail.com` | `password123` | Full access, analytics, SLA monitoring |
-| **Campus Administrator** | Dr. Anita Desai | `admin.anita@campus.edu` | `admin123` | Department operations |
-| **Student** | Rahul Sharma | `rahul.student@campus.edu` | `password123` | CS Dept student, active complaints |
-| **Student** | Priya Patel | `priya.student@campus.edu` | `password123` | Hostel student |
+| **Chief Administrator** | **Harshit Kulkarni** | `harshitkulkarni608@gmail.com` | `password123` | Full access, analytics, SLA monitoring, official dossier printing |
+| **Student** | **Harshit Kulkarni** | `hk5119164@gmail.com` | `password123` | CS Dept student, active complaints & real-time tracking |
+| **Student** | **hellofree** | `hellofree00007@gmail.com` | `password123` | Residential student, active hostel grievances |
 
-*Note: You can switch accounts with 1 click using the **Reviewer Persona Switcher** dropdown in the top navigation header on any page.*
+> **Clean Design & Security**: Admin credentials are kept strictly separate from the frontend. There are no public demo switcher buttons or exposed credentials on the interface. Users authenticate securely via the standard `/login` route; the database role dynamically controls access to the Admin Portal (`/admin/dashboard`) or Student Portal (`/student/dashboard`).
 
 ---
 

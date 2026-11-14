@@ -21,8 +21,8 @@ describe('CampusResolve End-to-End Master Lifecycle Verification (20-Step Review
     // -------------------------------------------------------------
     const studentUser = {
       id: 'st-rahul-001',
-      name: 'Rahul Sharma',
-      email: 'rahul.student@campus.edu',
+      name: 'Campus Scholar',
+      email: 'student@campusresolve.edu',
       role: 'student' as const,
     };
     expect(studentUser.role).toBe('student');
@@ -76,8 +76,8 @@ describe('CampusResolve End-to-End Master Lifecycle Verification (20-Step Review
     // -------------------------------------------------------------
     const adminUser = {
       id: 'ad-anita-001',
-      name: 'Dr. Anita Desai (Campus Admin)',
-      email: 'admin.anita@campus.edu',
+      name: 'Campus Administrator',
+      email: 'admin@campusresolve.edu',
       role: 'admin' as const,
     };
     expect(adminUser.role).toBe('admin');
