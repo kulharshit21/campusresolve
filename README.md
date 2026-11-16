@@ -4,7 +4,7 @@
 > *A Real-Time, Enterprise Campus Grievance Platform for Apex Institute of Technology & Engineering*  
 > **Live Production URL**: [https://campusresolve-theta.vercel.app](https://campusresolve-theta.vercel.app)
 
-[![CI](https://github.com/campusresolve/campusresolve/actions/workflows/ci.yml/badge.svg)](https://github.com/campusresolve/campusresolve/actions)
+[![CI](https://github.com/kulharshit21/campusresolve/actions/workflows/ci.yml/badge.svg)](https://github.com/kulharshit21/campusresolve/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](https://tailwindcss.com/)
@@ -71,7 +71,7 @@
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone <repository-url>
+git clone https://github.com/kulharshit21/campusresolve.git
 cd campusresolve
 npm install
 ```
@@ -103,13 +103,14 @@ npm run build
 
 ## 🎓 Reviewer Demonstration Walkthrough
 
-1. **Open Landing Page**: Navigate to [http://localhost:5173](http://localhost:5173).
-2. **Log in as Student**: Click **"Test as Student (Rahul)"** in the top hero banner.
-3. **Submit a Complaint**: Click **"Log New Complaint"**, fill out the campus location, select category, attach an image, and submit.
-4. **Inspect Generated Ticket**: Note the tracking ID (e.g. `CR-2026-1005`) and view the initial 3-step progress timeline.
-5. **Switch to Administrator**: Click the profile icon in the navigation bar and select **"Switch to Admin (Dr. Anita)"**.
-6. **Manage Ticket & Transition Status**: Open the Admin Registry table, click **"Update"** on the ticket, change status to **"In Progress"** or **"Resolved"** with an official resolution note.
-7. **Verify Real-Time Audit Log**: Inspect the updated timeline and audit history log.
+1. **Open Landing Page**: Navigate to [https://campusresolve-theta.vercel.app](https://campusresolve-theta.vercel.app).
+2. **Instant Ticket Tracking**: Enter tracking code `CR-2026-1001` in the public tracking widget to view live ticket progress without logging in.
+3. **Log in as Student**: Go to `/login` and sign in with `hk5119164@gmail.com` / `password123`.
+4. **Submit a Complaint**: Click **"Report Issue"**, fill out the campus location preset, select category (e.g. *Wi-Fi / Network*), attach photo evidence, and submit.
+5. **Inspect Generated Ticket**: Note the unique tracking ID (e.g. `CR-2026-1005`) and inspect the 3-step progress timeline.
+6. **Switch to Administrator**: Click profile &rarr; **Sign Out**, then sign in with `harshitkulkarni608@gmail.com` / `password123`.
+7. **Manage Ticket & Transition Status**: In the Admin Registry table, click **"Update"** on the ticket, change status to **"In Progress"** or **"Resolved"** with an official resolution note.
+8. **Print Official Dossier**: Open any complaint and click **"Print Official Dossier"** to view the formatted committee PDF/print report with academic letterhead.
 
 ---
 
