@@ -159,8 +159,32 @@ campusresolve/
 
 ---
 
-## 👥 University Team Information
+## 👥 University Team Information & Project Deliverables
 
-- **Project Title**: CampusResolve — A Real-Time Smart Campus Complaint and Issue Management System
-- **Academic Review Date**: 16 November 2026
-- **Team Size**: Maximum 3 Members *(Refer to `docs/TEAM_CONTRIBUTIONS.md`)*
+- **Institution**: SRM Institute of Science and Technology, Kattankulathur
+- **Department**: Department of Computing Technologies
+- **Course**: 21CSP401L — Full Stack Development Lab (Academic Year 2026–2027)
+- **Faculty Guide**: **Mrs. Ramya B**, Assistant Professor
+- **Project Title**: **CampusResolve — Centralized Statutory Grievance Redressal and SLA Auditing Engine**
+
+### Presenting Team Members & Architectural Responsibilities
+
+| Speaker | Name | Reg. No. | Architectural Domain & Presentation Scope |
+|---|---|---|---|
+| **Speaker 1** | **Harshit Aman** | `RA2311003011776` | **Lead Systems Architect**: UGC Statutory Framework (Ref: `GRS-2026-APEX`), Core Architecture, PostgreSQL Row Level Security (RLS), Zero-Knowledge Public Ticket Tracking, & Email Resiliency. |
+| **Speaker 2** | **Palchin** | `RA2311003011759` | **Student Lifecycle Engineer**: Student Dashboard, Zod Form Validation, Geotagged Location Presets, Supabase Storage Evidence Pipeline, Realtime Status Timeline & WebSockets. |
+| **Speaker 3** | **Harshit R K** | `RA2311003011810` | **Operations & Compliance Lead**: Admin Master Queue, Recharts Operational Analytics, Urgency Triage & SLA Engine, One-Click UGC Grievance Dossier, Global Command Palette (`Ctrl+K`) & Edge Security. |
+
+---
+
+## 📄 Formal Deliverables in Repository
+
+1. **Official 3-Person Viva Voce Presentation Defense Script (PDF)**:
+   - File: [`CampusResolve_3_Person_Viva_Presentation_Script.pdf`](./CampusResolve_3_Person_Viva_Presentation_Script.pdf)
+   - Publication-grade 14-page script with embedded live screenshots, verbatim dialogue, click-by-click screen actions, architectural takeaways, and anticipated faculty viva voce Q&As.
+2. **Official University Project Report (DOCX)**:
+   - File: [`CampusResolve_Full_Stack_Project_Report.docx`](./CampusResolve_Full_Stack_Project_Report.docx)
+   - Formatted in exact accordance with SRM Department of Computing Technologies guidelines (Times New Roman, 1.0" margins, 350+ paragraphs, 19 tables).
+3. **High-Resolution Production Screenshots**:
+   - Directory: [`docs/screenshots/`](./docs/screenshots/)
+   - Captured directly from the live production deployment (`https://campusresolve-theta.vercel.app`).

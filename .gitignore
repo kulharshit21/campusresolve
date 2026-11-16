@@ -46,6 +46,11 @@ out/
 # Supabase local generated / temporary files
 .supabase/
 
+# Temporary test files & Chrome user data
+.chrome_temp/
+docs/pdf_previews/
+landing.png
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
