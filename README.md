@@ -16,7 +16,7 @@
 
 ## 📌 Project Overview
 
-**CampusResolve** is an institutional web platform that replaces informal, untracked campus complaints (such as verbal requests or informal WhatsApp messages) with a centralized digital grievance management system.
+**CampusResolve** is a web platform that replaces informal, untracked campus complaints (such as verbal requests or informal WhatsApp messages) with a centralized digital grievance management system.
 
 - **Students**: Submit geotagged issues across campus categories (Wi-Fi, Electrical, Plumbing, Hostel, Classroom), upload photographic evidence, select location presets, receive an immutable tracking identifier (`CR-YYYY-XXXX`), and monitor resolution progress on a step-by-step visual timeline.
 - **Campus Administrators**: Manage incoming complaints through a real-time management portal with live Recharts analytics, monitor SLA deadlines, dispatch maintenance staff, update ticket statuses, and log official resolution notes.
