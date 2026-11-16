@@ -179,12 +179,16 @@ campusresolve/
 
 ## 📄 Formal Deliverables in Repository
 
-1. **Official 3-Person Viva Voce Presentation Defense Script (PDF)**:
+1. **Master 3-Person Viva Voce Presentation Defense Script (PDF)**:
    - File: [`CampusResolve_3_Person_Viva_Presentation_Script.pdf`](./CampusResolve_3_Person_Viva_Presentation_Script.pdf)
    - Publication-grade 14-page script with embedded live screenshots, verbatim dialogue, click-by-click screen actions, architectural takeaways, and anticipated faculty viva voce Q&As.
-2. **Official University Project Report (DOCX)**:
+2. **Individual Speaker Defense Scripts (Standalone PDFs for Each Member)**:
+   - Speaker 1: [`CampusResolve_Speaker_1_Harshit_Aman.pdf`](./CampusResolve_Speaker_1_Harshit_Aman.pdf) — Architecture, UGC Framework & Public Tracking (4 pages)
+   - Speaker 2: [`CampusResolve_Speaker_2_Palchin.pdf`](./CampusResolve_Speaker_2_Palchin.pdf) — Student Dashboard, Evidence Pipeline & WebSockets (4 pages)
+   - Speaker 3: [`CampusResolve_Speaker_3_Harshit_R_K.pdf`](./CampusResolve_Speaker_3_Harshit_R_K.pdf) — Admin Operations, SLA Engine, UGC Dossier & Edge Security (4 pages)
+3. **Official University Project Report (DOCX)**:
    - File: [`CampusResolve_Full_Stack_Project_Report.docx`](./CampusResolve_Full_Stack_Project_Report.docx)
    - Formatted in exact accordance with SRM Department of Computing Technologies guidelines (Times New Roman, 1.0" margins, 350+ paragraphs, 19 tables).
-3. **High-Resolution Production Screenshots**:
+4. **High-Resolution Production Screenshots**:
    - Directory: [`docs/screenshots/`](./docs/screenshots/)
    - Captured directly from the live production deployment (`https://campusresolve-theta.vercel.app`).
